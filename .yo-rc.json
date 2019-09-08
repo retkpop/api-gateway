@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.tk.api.gateway",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "6.1.2",
+    "applicationType": "gateway",
+    "baseName": "ApiGateway",
+    "packageName": "com.tk.api.gateway",
+    "packageFolder": "com/tk/api/gateway",
+    "serverPort": "9090",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "mariadb",
+    "prodDatabaseType": "mariadb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NGI3ZWEwNGI4OGJjYTk0Zjk4MGQ5YTg2MGM2ODNkMDAzY2IwNWQ2MTU3OTI0MTY5MjE4ZWVhZjM2ZmE3ZmI1NTM0ZTg5Y2Y2ODFmNGUyOGEwNWYxZmJiOTNiNTUzZGJmNThlZDliZjM4OGFlZDYwYzkzYzdlODJiYzJjZjViZDA=",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "vi"
+    ],
+    "skipClient": true
+  }
+}

@@ -1,0 +1,133 @@
+<div class="homePage">
+  <div class="sidebar">
+    <div class="listMenu">
+      <div class="item-menu">
+        <ul>
+          <li class="active">
+            <a href=""><i class="fa fa-home"></i> <span translate>Home</span></a>
+          </li>
+          <li>
+            <a routerLink="/home"><i class="fab fa-affiliatetheme"></i> <span>Thịnh hành</span></a>
+          </li>
+          <li>
+            <a href=""><i class="fab fa-snapchat-square"></i> <span>Kênh đăng ký</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="item-menu">
+        <ul>
+          <li>
+            <a href="">Thư viện</a>
+          </li>
+          <li>
+            <a href="">Lịch sử</a>
+          </li>
+          <li>
+            <a href="">Xem sau</a>
+          </li>
+          <li>
+            <a href="">Video đã thích</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="mainPage">
+    <div class="container">
+      <div class="jumbotron text-center">
+        <h1>
+          <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo" />
+          <span translate>Hello world !</span>
+        </h1>
+        <app-loader [isLoading]="isLoading"></app-loader>
+        <q [hidden]="isLoading">{{ quote }}</q>
+      </div>
+      <div class="group-ct">
+        <div class="chatvl-session-item">
+          <div class="heading-item">
+            <h2>Xem gần đây</h2>
+          </div>
+          <div class="list-session">
+            <div class="row gr-row">
+              <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 item-row">
+                <div class="item-chatvl">
+                  <div class="thumbnail">
+                    <a href="">
+                      <div class="img-thumb">
+                        <img src="assets/demo/demo.jpg" alt="thumb" class="img-fluid"/>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="chatvl-simple-endpoint">
+                    <div class="title">
+                      <h3><a href="">Tổng hợp - [MV OFFICIAL] Yêu Anh Em Nhé (#YAEN) | HUYR ft TÙNG VIU, prod.by TrungHieu</a></h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chatvl-session-item">
+          <div class="heading-item">
+            <h2>Danh sách đề xuất trên ChatVL</h2>
+          </div>
+          <div class="list-session">
+            <div class="row gr-row">
+              <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 item-row">
+                <div class="item-chatvl">
+                  <div class="thumbnail">
+                    <a href="">
+                      <div class="img-thumb">
+                        <img src="assets/demo/demo.jpg" alt="thumb" class="img-fluid"/>
+                        <div class="overlay-side-panel">
+                          <span class="numb-it">50+</span>
+                          <span class="icon-numb"><i class="fas fa-assistive-listening-systems"></i></span>
+                        </div>
+                      </div>
+                      <div class="view-all-pannel">
+                        <span><i class="fas fa-play"></i> Phát tất cả</span>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="chatvl-simple-endpoint">
+                    <div class="title">
+                      <h3><a href="">Tổng hợp - [MV OFFICIAL] Yêu Anh Em Nhé (#YAEN) | HUYR ft TÙNG VIU, prod.by TrungHieu</a></h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chatvl-session-item">
+          <div class="heading-item">
+            <h2>Mới nhất</h2>
+          </div>
+          <div class="list-session">
+            <div class="row gr-row">
+              <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 item-row">
+                <div class="item-chatvl">
+                  <div class="thumbnail">
+                    <a href="">
+                      <div class="img-thumb">
+                        <img src="assets/demo/demo.jpg" alt="thumb" class="img-fluid"/>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="chatvl-simple-endpoint">
+                    <div class="title">
+                      <h3><a href="">Tổng hợp - [MV OFFICIAL] Yêu Anh Em Nhé (#YAEN) | HUYR ft TÙNG VIU, prod.by TrungHieu</a></h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
