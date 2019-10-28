@@ -3,6 +3,7 @@ package com.tk.api.gateway.web.rest;
 
 import com.tk.api.gateway.domain.User;
 import com.tk.api.gateway.repository.UserRepository;
+import com.tk.api.gateway.security.AuthoritiesConstants;
 import com.tk.api.gateway.security.SecurityUtils;
 import com.tk.api.gateway.service.MailService;
 import com.tk.api.gateway.service.UserService;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +61,7 @@ public class AccountResource {
      * @throws LoginAlreadyUsedException {@code 400 (Bad Request)} if the login is already used.
      */
     @PostMapping("/register")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ANONYMOUS + "\")")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
@@ -136,6 +139,7 @@ public class AccountResource {
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the new password is incorrect.
      */
     @PostMapping(path = "/account/change-password")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.USER + "\")")
     public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
         if (!checkPasswordLength(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();

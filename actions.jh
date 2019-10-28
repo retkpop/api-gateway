@@ -1,0 +1,8 @@
+entity Actions {
+    action	Action
+    createdDate	ZonedDateTime
+    lastUpdate	ZonedDateTime
+}
+enum Action {
+    LIKE, DISLIKE, SAVE, SHARE
+}

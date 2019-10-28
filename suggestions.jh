@@ -1,0 +1,10 @@
+entity Suggestions {
+    name	String
+    slug	String
+    description	String
+    type	Long
+    sort Long
+    status String
+    createdDate	ZonedDateTime
+    lastUpdate	ZonedDateTime
+}

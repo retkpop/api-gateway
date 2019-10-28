@@ -191,7 +191,15 @@ dependencies {
     // import JHipster dependencies BOM
     implementation platform("io.github.jhipster:jhipster-dependencies:${jhipster_dependencies_version}" )
 
+
+    compile 'com.google.apis:google-api-services-youtube:v3-rev212-1.25.0'
+    compile group: 'com.google.oauth-client', name: 'google-oauth-client-java6', version: '1.11.0-beta'
+    compile group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.11.0-beta'
     // Use ", version: jhipster_dependencies_version, changing: true" if you want
+
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    
     // to use a SNAPSHOT release instead of a stable release
     implementation group: "io.github.jhipster", name: "jhipster-framework"
     implementation "org.springframework.boot:spring-boot-starter-cache"

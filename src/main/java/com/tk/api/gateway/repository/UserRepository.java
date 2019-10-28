@@ -2,14 +2,18 @@ package com.tk.api.gateway.repository;
 
 import com.tk.api.gateway.domain.User;
 
+import com.tk.api.gateway.service.dto.IdSubscribes;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.time.Instant;
@@ -48,4 +52,20 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneWithAuthoritiesByEmail(String email);
 
     Page<User> findAllByLoginNot(Pageable pageable, String login);
+
+    /**
+     *
+     * @param subscribeId
+     * @param userId
+     * @return
+     */
+    @Query(value = "SELECT COUNT(*) FROM tbl_subscribes as subscribe WHERE (subscribe.person_id = :userId AND subscribe.subscribe_id = :subscribeId) ", nativeQuery = true)
+    int findUsersBySubscribeOfAndSubscribes(@Param("subscribeId") Long subscribeId, @Param("userId") Long userId);
+
+    @Query(value = "SELECT tbl_subscribes.subscribe_id FROM tbl_subscribes  WHERE(tbl_subscribes.person_id = :userId)", nativeQuery = true)
+    List<Long> findUsersBySubscribeOf(@Param("userId") Long userId);
+
+    @Query( "select user from User user where id in :ids" )
+    List<User> findAllByListId(@Param("ids") List<Long> listId);
+
 }

@@ -46,6 +46,13 @@ public class CacheConfiguration {
             createCache(cm, com.tk.api.gateway.domain.User.class.getName());
             createCache(cm, com.tk.api.gateway.domain.Authority.class.getName());
             createCache(cm, com.tk.api.gateway.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.tk.api.gateway.domain.Posts.class.getName());
+            createCache(cm, com.tk.api.gateway.domain.Hashtag.class.getName());
+            createCache(cm, com.tk.api.gateway.domain.Hashtag.class.getName() + ".posts");
+            createCache(cm, com.tk.api.gateway.domain.Posts.class.getName() + ".hashtags");
+            createCache(cm, com.tk.api.gateway.domain.Categories.class.getName());
+            createCache(cm, com.tk.api.gateway.domain.Suggestions.class.getName());
+            createCache(cm, com.tk.api.gateway.domain.Actions.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

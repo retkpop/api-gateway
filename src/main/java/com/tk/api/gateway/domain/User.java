@@ -3,6 +3,8 @@ package com.tk.api.gateway.domain;
 import com.tk.api.gateway.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -15,9 +17,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A user.
@@ -83,6 +83,24 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @OneToMany(targetEntity=Posts.class,
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY,
+        mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Posts> posts = new HashSet<>();
+
+
+    @OneToMany(targetEntity=Actions.class,
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY,
+        mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Actions> actions = new ArrayList<>();
+
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -92,6 +110,75 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
+
+
+    @ManyToMany
+    @JoinTable(name="tbl_subscribes",
+        joinColumns=@JoinColumn(name="personId"),
+        inverseJoinColumns=@JoinColumn(name="subscribeId")
+    )
+    private List<User> subscribes;
+
+    @ManyToMany
+    @JoinTable(name="tbl_subscribes",
+        joinColumns=@JoinColumn(name="subscribeId"),
+        inverseJoinColumns=@JoinColumn(name="personId")
+    )
+    private List<User> subscribeOf;
+
+
+    public List<User> getSubscribes() {
+        return subscribes;
+    }
+
+    public void setSubscribes(List<User> subscribes) {
+        this.subscribes = subscribes;
+    }
+
+    public List<User> getSubscribeOf() {
+        return subscribeOf;
+    }
+
+    public void setSubscribeOf(List<User> subscribeOf) {
+        this.subscribeOf = subscribeOf;
+    }
+
+    public User addSubscribeOf(User user) {
+        user.getSubscribeOf().add(this);
+        return this;
+    }
+
+    public User removeSubscribeOf(User user) {
+        user.getSubscribeOf().remove(this);
+        return this;
+    }
+
+    public User addSubscribes(User user) {
+        user.getSubscribes().add(this);
+        return this;
+    }
+
+    public User removeSubscribes(User user) {
+        user.getSubscribes().remove(this);
+        return this;
+    }
+
+
+    public Set<Posts> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Posts> posts) {
+        this.posts = posts;
+    }
+
+    public List<Actions> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Actions> actions) {
+        this.actions = actions;
+    }
 
     public Long getId() {
         return id;

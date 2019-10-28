@@ -1,0 +1,21 @@
+entity Posts {
+    title	String
+    slug	String
+    excerpt	TextBlob
+    description	TextBlob
+    urlVideo	String
+    thumbnail	String
+    type	Long
+    createdDate	ZonedDateTime
+    resetDate	ZonedDateTime
+    lastUpdate	ZonedDateTime
+    lastModifiedBy	String
+    lastModifiedDate ZonedDateTime
+}
+entity Hashtag {
+	name	String
+    slug	String
+}
+relationship ManyToMany {
+	Posts{hashtag} to Hashtag{posts}
+}

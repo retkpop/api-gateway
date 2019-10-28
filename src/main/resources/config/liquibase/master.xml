@@ -13,7 +13,13 @@
     <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
     <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
 
-    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/000000000000003_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190909102506_added_entity_Posts.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190909102507_added_entity_Hashtag.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190912143030_added_entity_Categories.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190917071540_added_entity_Suggestions.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190928031914_added_entity_Actions.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20190909102506_added_entity_constraints_Posts.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

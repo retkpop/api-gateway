@@ -1,0 +1,28 @@
+{
+    "name": "Actions",
+    "fields": [
+        {
+            "fieldName": "action",
+            "fieldType": "Action",
+            "fieldValues": "LIKE,DISLIKE,SAVE,SHARE"
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "lastUpdate",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190928031914",
+    "entityTableName": "actions",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

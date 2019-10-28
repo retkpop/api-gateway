@@ -156,4 +156,10 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  google-api:
+    youtube-api:
+      api-key: "AIzaSyCa0CCYRvydoHtEktROZ3Q-Ox8T_GIbf1g"
+      part-name: "snippet"
+      application-name: "Youtube Api Service"
+

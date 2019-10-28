@@ -22,6 +22,8 @@ logging:
 eureka:
   instance:
     prefer-ip-address: true
+    metadataMap:
+      zone: tamkieu
   client:
     service-url:
       defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
@@ -43,9 +45,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mariadb://localhost:3306/ApiGateway?useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: root
-    password:
+    url: jdbc:mariadb://125.253.123.186:3306/chatvl?useLegacyDatetimeCode=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    username: chatvl
+    password: =-kieUtaM$#@
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -64,6 +66,8 @@ spring:
       hibernate.cache.use_second_level_cache: true
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
+    hibernate:
+      ddl-auto: update
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
@@ -146,4 +150,9 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  google-api:
+    youtube-api:
+      api-key: "AIzaSyCa0CCYRvydoHtEktROZ3Q-Ox8T_GIbf1g"
+      part-name: "snippet"
+      application-name: "Youtube Api Service"

@@ -2,8 +2,10 @@ package com.tk.api.gateway.web.rest;
 
 import com.tk.api.gateway.config.Constants;
 import com.tk.api.gateway.domain.User;
+import com.tk.api.gateway.domain.clientResponse.SubscribeRes;
 import com.tk.api.gateway.repository.UserRepository;
 import com.tk.api.gateway.security.AuthoritiesConstants;
+import com.tk.api.gateway.security.SecurityUtils;
 import com.tk.api.gateway.service.MailService;
 import com.tk.api.gateway.service.UserService;
 import com.tk.api.gateway.service.dto.UserDTO;
@@ -147,6 +149,7 @@ public class UserResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body all users.
      */
     @GetMapping("/users")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, Pageable pageable) {
         final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
@@ -189,5 +192,43 @@ public class UserResource {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName,  "userManagement.deleted", login)).build();
+    }
+
+
+    /**
+     *
+     * @param userId
+     * @return
+     * @throws URISyntaxException
+     */
+    @PostMapping("/users/subscribe")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.USER + "\")")
+    public ResponseEntity<SubscribeRes> subscribeUser(@Valid @RequestBody Long userId) throws URISyntaxException {
+        try {
+            log.debug("REST request to subscribe User : {}", userId);
+            Optional<SubscribeRes> subscribeRes = userService.subscribeUser(userId);
+
+            return ResponseEntity.created(new URI("/api/users/subscribe"))
+                .headers(HeaderUtil.createAlert(applicationName,  "userManagement.subscribe", subscribeRes.get().toString()))
+                .body(subscribeRes.get());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
+        }
+    }
+    @GetMapping("/users/get-subscribe-user-post/{userId}")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.USER + "\")")
+    public ResponseEntity<SubscribeRes> getSubscribeUserPost(@PathVariable Long userId) throws URISyntaxException {
+        try {
+            log.debug("REST request get subscribe User : {}", userId);
+            Optional<SubscribeRes> subscribeRes = userService.getSubscribeUserPost(userId);
+
+            return ResponseEntity.created(new URI("/api/users/get-subscribe-user-post/" + userId))
+                .headers(HeaderUtil.createAlert(applicationName,  "userManagement.subscribe", subscribeRes.get().toString()))
+                .body(subscribeRes.get());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
+        }
     }
 }

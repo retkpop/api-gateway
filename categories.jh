@@ -1,0 +1,13 @@
+entity Categories {
+    name	String
+    slug	String
+    description	String
+    img	TextBlob
+    type	Long
+    createdDate	ZonedDateTime
+    resetDate	ZonedDateTime
+    lastUpdate	ZonedDateTime
+    lastModifiedBy	String
+    lastModifiedDate ZonedDateTime
+}
+service all with serviceImpl except Categories

@@ -3,10 +3,12 @@ package com.tk.api.gateway.service;
 import com.tk.api.gateway.config.Constants;
 import com.tk.api.gateway.domain.Authority;
 import com.tk.api.gateway.domain.User;
+import com.tk.api.gateway.domain.clientResponse.SubscribeRes;
 import com.tk.api.gateway.repository.AuthorityRepository;
 import com.tk.api.gateway.repository.UserRepository;
 import com.tk.api.gateway.security.AuthoritiesConstants;
 import com.tk.api.gateway.security.SecurityUtils;
+import com.tk.api.gateway.service.dto.IdSubscribes;
 import com.tk.api.gateway.service.dto.UserDTO;
 import com.tk.api.gateway.service.util.RandomUtil;
 import com.tk.api.gateway.web.rest.errors.*;
@@ -292,5 +294,81 @@ public class UserService {
     private void clearUserCaches(User user) {
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+    }
+
+    public List<Long> getListUserSubscribed() {
+        Optional<String> username = SecurityUtils.getCurrentUserLogin();
+        Optional<User> userLogged = userRepository.findOneByLogin(username.get());
+        List<Long> users = new ArrayList<>();
+        try {
+            users = userRepository.findUsersBySubscribeOf(userLogged.get().getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    public List<User> getAllUserByListId(List<Long> userIds) {
+        List<User> users = new ArrayList<>();
+        try {
+            users = userRepository.findAllByListId(userIds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    public Optional<SubscribeRes> subscribeUser(Long userId) {
+        Optional<String> username = SecurityUtils.getCurrentUserLogin();
+        Optional<User> userLogged = userRepository.findOneByLogin(username.get());
+        SubscribeRes subscribeRes = new SubscribeRes();
+        try {
+            Optional<User> user = userRepository.findById(userId);
+            int countSubscibe = userRepository.findUsersBySubscribeOfAndSubscribes(user.get().getId(), userLogged.get().getId());
+            if (userLogged.get().getId().compareTo(userId) != 0 && user.isPresent()) {
+                if(countSubscibe == 0) {
+                    userLogged.get().addSubscribeOf(user.get());
+                    subscribeRes.setCode(2001L);
+                    subscribeRes.setStatus("SUBSCRIBED");
+                    subscribeRes.setMessage("Subscribe success!");
+                } else {
+                    userLogged.get().removeSubscribeOf(user.get());
+                    subscribeRes.setCode(2001L);
+                    subscribeRes.setStatus("UNSUBSCRIBED");
+                    subscribeRes.setMessage("Unsubscribe success!");
+                }
+                userRepository.save(userLogged.get());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            subscribeRes.setCode(1001L);
+            subscribeRes.setStatus("ERROR_SUBSCRIBE");
+            subscribeRes.setMessage("Subscribe error!");
+        }
+        return Optional.of(subscribeRes);
+    }
+    public Optional<SubscribeRes> getSubscribeUserPost(Long userId) {
+        Optional<String> username = SecurityUtils.getCurrentUserLogin();
+        Optional<User> userLogged = userRepository.findOneByLogin(username.get());
+        SubscribeRes subscribeRes = new SubscribeRes();
+        try {
+            Optional<User> user = userRepository.findById(userId);
+            int countSubscibe = userRepository.findUsersBySubscribeOfAndSubscribes(user.get().getId(), userLogged.get().getId());
+            if (userLogged.get().getId().compareTo(userId) != 0 && user.isPresent()) {
+                if(countSubscibe == 0) {
+                    subscribeRes.setCode(2001L);
+                    subscribeRes.setStatus("UNSUBSCRIBED");
+                    subscribeRes.setMessage("Unsubscribe success!");
+                } else {
+                    subscribeRes.setCode(2001L);
+                    subscribeRes.setStatus("SUBSCRIBED");
+                    subscribeRes.setMessage("Subscribe success!");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            subscribeRes.setCode(1001L);
+            subscribeRes.setStatus("ERROR_SUBSCRIBE");
+            subscribeRes.setMessage("Subscribe error!");
+        }
+        return Optional.of(subscribeRes);
     }
 }
