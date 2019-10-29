@@ -230,7 +230,6 @@ public class PostsResource {
      * @throws Exception
      */
     @PostMapping("/posts/video-viewed")
-    @Secured("ROLE_USER")
     public List<Posts> getListVideoViewed(@RequestBody List<Long> listId) throws Exception {
         List<Posts> posts = new ArrayList<>();
         try {
