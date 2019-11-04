@@ -96,6 +96,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/posts/add-view-post").permitAll()
             .antMatchers("/api/users/count-number-subscribe-user/**").permitAll()
             .antMatchers("/api/get-all-categories").permitAll()
+            .antMatchers("/api/categories/get-cat-by-slug/**").permitAll()
 
             .antMatchers("/api/**").authenticated()
             .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)

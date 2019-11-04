@@ -128,6 +128,10 @@ public class CategoriesResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/categories/custom-get-all")
     @Secured({"ROLE_USER", "ROLE_ANONYMOUS"})
     public List<CategoriesCustomDTO> getAllCategoriesCustom() {
@@ -142,11 +146,18 @@ public class CategoriesResource {
         }
         return categoriesCustomDTOS;
     }
+
+    /**
+     *
+     * @param id
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/categories/cat-id/{id}/{page}/{limit}")
     @Secured({"ROLE_USER", "ROLE_ANONYMOUS"})
     public List<Posts> getPostByIdCat(@PathVariable Long id, @PathVariable int page, @PathVariable int limit) {
-        Sort sort = Sort.by(
-            Sort.Order.desc("id"));
+        Sort sort = Sort.by(Sort.Order.desc("id"));
         List<Posts> posts = new ArrayList<>();
         try {
             posts = categoriesRepository.getPostByIdCat(new PageRequest(page, limit, sort), id);
@@ -154,5 +165,16 @@ public class CategoriesResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         return posts;
+    }
+
+    /**
+     *
+     * @param slug
+     * @return
+     */
+    @GetMapping("/categories/get-cat-by-slug/{slug}")
+    public ResponseEntity<Categories> getCatBySlug(@PathVariable String slug) {
+        Optional<Categories> categories = categoriesRepository.findFirstBySlug(slug);
+        return ResponseUtil.wrapOrNotFound(categories);
     }
 }
