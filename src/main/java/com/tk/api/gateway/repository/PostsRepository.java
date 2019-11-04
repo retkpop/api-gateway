@@ -20,6 +20,7 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
 
     Optional<Posts> findFirstBySlug(@Param("slug") String slug);
 
+    List<Posts> findAllByUser(@Param("user") User user, Pageable pageable);
 
     @Query( "select posts from Posts posts where id in :id" )
     List<Posts> findAllViewedById(@Param("id") List<Long> listId, Pageable pageable);
@@ -50,6 +51,6 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
     List<Posts> getVideoPopular(Pageable pageable);
 
     @Query("SELECT posts FROM Posts posts WHERE posts.user = :listId")
-    List<Posts> findAllByUse(@Param("listId") List<User> listId, Pageable pageable);
+    List<Posts> findAllByListUser(@Param("listId") List<User> listId, Pageable pageable);
 
 }

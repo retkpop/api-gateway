@@ -251,7 +251,6 @@ public class UserService {
         return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER).map(UserDTO::new);
     }
 
-    @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
         return userRepository.findOneWithAuthoritiesByLogin(login);
     }
@@ -370,5 +369,21 @@ public class UserService {
             subscribeRes.setMessage("Subscribe error!");
         }
         return Optional.of(subscribeRes);
+    }
+
+    public Optional<User> findOneByLogin(String login) {
+        return userRepository.findOneByLogin(login);
+    }
+
+    public List<User> getAllUserSubscribed() {
+        try {
+            Optional<String> username = SecurityUtils.getCurrentUserLogin();
+            Optional<User> user = userRepository.findOneByLogin(username.get());
+            List<User> users = userRepository.findAllBySubscribed(user.get().getId());
+            return users;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

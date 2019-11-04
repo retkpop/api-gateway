@@ -93,7 +93,7 @@ public class CategoriesResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of categories in body.
      */
-    @GetMapping("/categories")
+    @GetMapping("/get-all-categories")
     @Secured({"ROLE_USER", "ROLE_ANONYMOUS"})
     public List<Categories> getAllCategories() {
         log.debug("REST request to get all Categories");

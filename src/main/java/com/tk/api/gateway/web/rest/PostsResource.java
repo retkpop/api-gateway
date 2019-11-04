@@ -295,7 +295,20 @@ public class PostsResource {
             log.debug("REST request to getVideoSubscribes:");
             List<Long> users = userService.getListUserSubscribed();
             List<User> users1 = userService.getAllUserByListId(users);
-            posts = postsRepository.findAllByUse(users1, new PageRequest(page, size));
+            posts = postsRepository.findAllByListUser(users1, new PageRequest(page, size));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
+
+    @GetMapping("/posts/get-video-by-user/{username}/{page}/{size}")
+    public List<Posts> getVideoByUserName(@PathVariable String username, @PathVariable int page, @PathVariable int size) throws Exception {
+        List<Posts> posts = new ArrayList<>();
+        try {
+            log.debug("REST request to getVideoByUserName:");
+            Optional<User> user = userService.getUserWithAuthoritiesByLogin(username);
+            posts = postsRepository.findAllByUser(user.get(), new PageRequest(page, size));
         } catch (Exception e) {
             e.printStackTrace();
         }

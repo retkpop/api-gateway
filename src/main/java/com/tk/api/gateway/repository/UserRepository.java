@@ -3,6 +3,7 @@ package com.tk.api.gateway.repository;
 import com.tk.api.gateway.domain.User;
 
 import com.tk.api.gateway.service.dto.IdSubscribes;
+import com.tk.api.gateway.service.dto.UserDTO;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 
@@ -44,7 +45,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneWithAuthoritiesById(Long id);
 
     @EntityGraph(attributePaths = "authorities")
-    @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
     Optional<User> findOneWithAuthoritiesByLogin(String login);
 
     @EntityGraph(attributePaths = "authorities")
@@ -68,4 +68,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query( "select user from User user where id in :ids" )
     List<User> findAllByListId(@Param("ids") List<Long> listId);
 
+    @Query(value = "SELECT count(*) FROM tbl_subscribes  WHERE(tbl_subscribes.subscribe_id = :id)", nativeQuery = true)
+    int countNumberSubscribeUser(@Param("id") Long id);
+
+    @Query(value = "select * from jhi_user as u inner join tbl_subscribes as s on s.subscribe_id = u.id where s.person_id = :userId", nativeQuery = true)
+    List<User> findAllBySubscribed(@Param("userId") Long userId);
 }

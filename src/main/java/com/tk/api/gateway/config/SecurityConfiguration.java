@@ -80,6 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
+            .antMatchers("/api/users/get-user-by-username/**").permitAll()
 
             //TK Custom Config Security
             .antMatchers("/api/posts/get-post-custom/**").permitAll()
@@ -91,6 +92,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/suggestions/get-suggestion-by-slug/**").permitAll()
             .antMatchers("/api/posts/get-video-popular/**").permitAll()
             .antMatchers("/api/posts/video-viewed/**").permitAll()
+            .antMatchers("/api/posts/get-video-by-user/**").permitAll()
+            .antMatchers("/api/posts/add-view-post").permitAll()
+            .antMatchers("/api/users/count-number-subscribe-user/**").permitAll()
+            .antMatchers("/api/get-all-categories").permitAll()
 
             .antMatchers("/api/**").authenticated()
             .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)

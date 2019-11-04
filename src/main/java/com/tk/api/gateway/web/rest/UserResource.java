@@ -5,7 +5,6 @@ import com.tk.api.gateway.domain.User;
 import com.tk.api.gateway.domain.clientResponse.SubscribeRes;
 import com.tk.api.gateway.repository.UserRepository;
 import com.tk.api.gateway.security.AuthoritiesConstants;
-import com.tk.api.gateway.security.SecurityUtils;
 import com.tk.api.gateway.service.MailService;
 import com.tk.api.gateway.service.UserService;
 import com.tk.api.gateway.service.dto.UserDTO;
@@ -172,7 +171,7 @@ public class UserResource {
      * @param login the login of the user to find.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the "login" user, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
+    @GetMapping("/users/get-user-by-username/{login:" + Constants.LOGIN_REGEX + "}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
         return ResponseUtil.wrapOrNotFound(
@@ -216,6 +215,13 @@ public class UserResource {
             throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
         }
     }
+
+    /**
+     *
+     * @param userId
+     * @return
+     * @throws URISyntaxException
+     */
     @GetMapping("/users/get-subscribe-user-post/{userId}")
     @PreAuthorize("hasRole(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<SubscribeRes> getSubscribeUserPost(@PathVariable Long userId) throws URISyntaxException {
@@ -230,5 +236,32 @@ public class UserResource {
             e.printStackTrace();
             throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
         }
+    }
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("/users/count-number-subscribe-user/{userId}")
+    public int countNumberSubscribeUser(@PathVariable Long userId) {
+        int number = 0;
+        try {
+            number = userRepository.countNumberSubscribeUser(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestAlertException("Count number subscribe user not found", "userManagement", "idexists");
+        }
+        return number;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping("/users/get-all-user-subscribed")
+    public List<User> getAllUserSubscribed() {
+        final List<User> page = userService.getAllUserSubscribed();
+        return page;
     }
 }
